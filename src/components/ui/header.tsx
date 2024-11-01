@@ -8,7 +8,7 @@ export function Header() {
         <div className="flex flex-1 items-center justify-between">
           <div className="w-10"> {/* Spacer */}</div>
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-bold text-xl">IBOVESPA Stocks</span>
+            <span className="font-bold text-xl"></span>
           </Link>
           <ThemeToggle />
         </div>

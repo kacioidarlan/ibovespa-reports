@@ -4,16 +4,16 @@ import { ChevronDown } from "lucide-react";
 
 interface SelectProps {
   value: string;
-  onChange: (value: string) => void;
+  onChangeAction: (value: string) => void;
   options: { value: string; label: string }[];
 }
 
-export function Select({ value, onChange, options }: SelectProps) {
+export function Select({ value, onChangeAction, options }: SelectProps) {
   return (
     <div className="relative">
       <select
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChangeAction(e.target.value)}
         className="appearance-none w-full bg-card border border-border rounded-md px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-colors cursor-pointer"
       >
         {options.map((option) => (

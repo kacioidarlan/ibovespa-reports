@@ -30,7 +30,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           <div className="text-center space-y-2">
             <h1 className="text-4xl font-bold">Ações IBOVESPA</h1>
             <p className="text-muted-foreground">
-              Encontre e acompanhe as principais ações do índice IBOVESPA
+              Composição da carteira do Índice Bovespa
             </p>
           </div>
 

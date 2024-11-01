@@ -19,7 +19,7 @@ export function StockListing({ stocks, initialSort }: StockListingProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSort = (value: string) => {
+  const handleSortAction = (value: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("sort", value);
     router.push("?" + params.toString());
@@ -44,7 +44,7 @@ export function StockListing({ stocks, initialSort }: StockListingProps) {
           <div className="w-32">
             <Select
               value={initialSort}
-              onChange={handleSort}
+              onChangeAction={handleSortAction}
               options={sortOptions}
             />
           </div>
