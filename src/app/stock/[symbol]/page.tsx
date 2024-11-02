@@ -8,12 +8,13 @@ import { Header } from "@/components/ui/header";
 import { MarkdownViewer } from "@/components/stock/markdown-viewer";
 
 interface PageProps {
-  params: Promise<{ symbol: string }> | { symbol: string };
+  params: {
+    symbol: string;
+  };
 }
 
 export default async function StockPage({ params }: PageProps) {
-  const resolvedParams = await params;
-  const stock = stocks.find((s) => s.symbol === resolvedParams.symbol);
+  const stock = stocks.find((s) => s.symbol === params.symbol);
 
   if (!stock) {
     notFound();
@@ -24,7 +25,7 @@ export default async function StockPage({ params }: PageProps) {
     const filePath = path.join(
       process.cwd(),
       "reports",
-      `${resolvedParams.symbol}-report.md`,
+      `${params.symbol}-report.md`,
     );
     console.log("Attempting to read file:", filePath);
 
@@ -66,9 +67,9 @@ Por favor, tente novamente mais tarde.`;
           <div className="mb-8 space-y-4">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-accent group"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2 rounded-lg hover:bg-accent"
             >
-              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+              <ArrowLeft className="h-4 w-4" />
               Voltar para lista
             </Link>
             <div>
@@ -80,8 +81,8 @@ Por favor, tente novamente mais tarde.`;
                 <span
                   className={`text-lg font-semibold ${
                     stock.percentage >= 0
-                      ? "text-emerald-600 dark:text-emerald-400"
-                      : "text-rose-600 dark:text-rose-400"
+                      ? "text-green-500 dark:text-green-400"
+                      : "text-red-500 dark:text-red-400"
                   }`}
                 >
                   {stock.percentage.toFixed(2)}%

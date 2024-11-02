@@ -4,15 +4,15 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { StockListing } from "@/components/stock/stock-listing";
 
 interface PageProps {
-  searchParams:
-    | Promise<{ q?: string; sort?: string }>
-    | { q?: string; sort?: string };
+  searchParams?: {
+    q?: string;
+    sort?: string;
+  };
 }
 
-export default async function HomePage({ searchParams }: PageProps) {
-  const resolvedSearchParams = await searchParams;
-  const query = resolvedSearchParams?.q || "";
-  const sortBy = resolvedSearchParams?.sort || "symbol";
+export default async function HomePage({ searchParams = {} }: PageProps) {
+  const query = searchParams?.q || "";
+  const sortBy = searchParams?.sort || "symbol";
 
   const filteredStocks = stocks.filter((stock) => {
     const searchTerm = query.toLowerCase();
@@ -30,7 +30,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           <div className="text-center space-y-2">
             <h1 className="text-4xl font-bold">Ações IBOVESPA</h1>
             <p className="text-muted-foreground">
-              Composição da carteira do Índice Bovespa
+              Encontre e acompanhe as principais ações do índice IBOVESPA
             </p>
           </div>
 
