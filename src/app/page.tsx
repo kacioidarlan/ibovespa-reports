@@ -3,16 +3,21 @@ import { Header } from "@/components/ui/header";
 import { SearchBar } from "@/components/ui/search-bar";
 import { StockListing } from "@/components/stock/stock-listing";
 
-interface PageProps {
-  searchParams?: {
-    q?: string;
-    sort?: string;
-  };
-}
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  // Await searchParams
+  const resolvedSearchParams = await Promise.resolve(searchParams);
 
-export default async function HomePage({ searchParams = {} }: PageProps) {
-  const query = searchParams?.q || "";
-  const sortBy = searchParams?.sort || "symbol";
+  const query =
+    typeof resolvedSearchParams?.q === "string" ? resolvedSearchParams.q : "";
+
+  const sortBy =
+    typeof resolvedSearchParams?.sort === "string"
+      ? resolvedSearchParams.sort
+      : "symbol";
 
   const filteredStocks = stocks.filter((stock) => {
     const searchTerm = query.toLowerCase();
