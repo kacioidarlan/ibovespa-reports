@@ -7,14 +7,14 @@ import { stocks } from "@/data/stocks";
 import { Header } from "@/components/ui/header";
 import { MarkdownViewer } from "@/components/stock/markdown-viewer";
 
-export default async function StockPage({
-  params,
-}: {
-  params: { symbol: string };
-}) {
-  // Await params
-  const resolvedParams = await Promise.resolve(params);
-  const stock = stocks.find((s) => s.symbol === resolvedParams.symbol);
+type PageProps = {
+  params: {
+    symbol: string;
+  };
+};
+
+export default async function StockPage({ params }: PageProps) {
+  const stock = stocks.find((s) => s.symbol === params.symbol);
 
   if (!stock) {
     notFound();
@@ -25,7 +25,7 @@ export default async function StockPage({
     const filePath = path.join(
       process.cwd(),
       "reports",
-      `${resolvedParams.symbol}-report.md`,
+      `${params.symbol}-report.md`,
     );
     console.log("Attempting to read file:", filePath);
 
