@@ -7,13 +7,12 @@ import { stocks } from "@/data/stocks";
 import { Header } from "@/components/ui/header";
 import { MarkdownViewer } from "@/components/stock/markdown-viewer";
 
-type PageProps = {
-  params: {
-    symbol: string;
-  };
+type Props = {
+  params: { symbol: string };
 };
 
-export default async function StockPage({ params }: PageProps) {
+export default async function StockPage(props: Props) {
+  const params = await Promise.resolve(props.params);
   const stock = stocks.find((s) => s.symbol === params.symbol);
 
   if (!stock) {
@@ -27,14 +26,10 @@ export default async function StockPage({ params }: PageProps) {
       "reports",
       `${params.symbol}-report.md`,
     );
-    console.log("Attempting to read file:", filePath);
 
-    const fileExists = await fs
-      .access(filePath)
-      .then(() => true)
-      .catch(() => false);
-
-    if (!fileExists) {
+    try {
+      content = await fs.readFile(filePath, "utf-8");
+    } catch {
       content = `# Relatório da ${stock.name} (${stock.symbol})
 
 ## Relatório em Desenvolvimento
@@ -47,11 +42,9 @@ O relatório detalhado para ${stock.symbol} está atualmente em desenvolvimento.
 - **Participação no Índice**: ${stock.percentage.toFixed(2)}%
 
 *Mais informações serão adicionadas em breve.*`;
-    } else {
-      content = await fs.readFile(filePath, "utf-8");
     }
   } catch (error) {
-    console.error("Error reading markdown file:", error);
+    console.error("Error handling report:", error);
     content = `# Erro ao Carregar Relatório
 
 Desculpe, não foi possível carregar o relatório para ${stock.symbol} no momento.
