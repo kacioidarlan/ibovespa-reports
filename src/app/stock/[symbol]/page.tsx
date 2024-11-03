@@ -7,12 +7,12 @@ import { stocks } from "@/data/stocks";
 import { Header } from "@/components/ui/header";
 import { MarkdownViewer } from "@/components/stock/markdown-viewer";
 
-type Props = {
+interface PageProps {
   params: { symbol: string };
-};
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-export default async function StockPage(props: Props) {
-  const params = await Promise.resolve(props.params);
+export default async function StockPage({ params }: PageProps) {
   const stock = stocks.find((s) => s.symbol === params.symbol);
 
   if (!stock) {

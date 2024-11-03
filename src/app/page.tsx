@@ -3,13 +3,12 @@ import { Header } from "@/components/ui/header";
 import { SearchBar } from "@/components/ui/search-bar";
 import { StockListing } from "@/components/stock/stock-listing";
 
-type Props = {
+interface PageProps {
+  params: { [key: string]: string | string[] | undefined };
   searchParams: { [key: string]: string | string[] | undefined };
-};
+}
 
-export default async function HomePage(props: Props) {
-  const searchParams = await Promise.resolve(props.searchParams ?? {});
-
+export default async function HomePage({ searchParams }: PageProps) {
   // Safely get string values
   const query = typeof searchParams.q === "string" ? searchParams.q : "";
   const sortBy =
