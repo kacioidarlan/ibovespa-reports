@@ -9,10 +9,13 @@ interface PageProps {
 }
 
 export default async function HomePage({ searchParams }: PageProps) {
-  // Safely get string values
-  const query = typeof searchParams.q === "string" ? searchParams.q : "";
-  const sortBy =
-    typeof searchParams.sort === "string" ? searchParams.sort : "symbol";
+  // Safely get string values from searchParams object
+  const query = Array.isArray(searchParams?.q) 
+    ? searchParams.q[0] ?? "" 
+    : searchParams?.q ?? "";
+  const sortBy = Array.isArray(searchParams?.sort) 
+    ? searchParams.sort[0] ?? "percentage" 
+    : searchParams?.sort ?? "percentage";
 
   const filteredStocks = stocks.filter((stock) => {
     const searchTerm = query.toLowerCase();
@@ -41,6 +44,13 @@ export default async function HomePage({ searchParams }: PageProps) {
           <StockListing stocks={filteredStocks} initialSort={sortBy} />
         </div>
       </main>
+      <footer className="py-6 border-t">
+        <div className="container">
+          <p className="text-center text-sm text-muted-foreground bg-muted p-4 rounded-lg max-w-3xl mx-auto">
+            <strong>Observação:</strong> Este site é apenas um estudo do crewAI para geração de relatórios de papéis do IBOV e não representa uma recomendação de investimento.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
